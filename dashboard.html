@@ -1,0 +1,29 @@
+{% extends "_app.html" %}
+{% block title %}Dashboard — ZedBinaryOption{% endblock %}
+{% block app %}
+<div class="row items-center mb-4">
+  <div>
+    <div class="kicker">Overview</div>
+    <h1 style="margin:0">Welcome back{% if user['full_name'] %}, {{ user['full_name'].split(' ')[0] }}{% endif %}</h1>
+  </div>
+  <div class="spacer"></div>
+  <a href="/deposit" class="btn btn-primary">Deposit</a>
+  <a href="/trade" class="btn btn-ghost">Trade</a>
+</div>
+
+<div class="stat-grid mb-4" id="stats"></div>
+
+<div class="grid" style="grid-template-columns:1.4fr 1fr;gap:18px">
+  <div class="card">
+    <h3>Recent transactions</h3>
+    <div id="tx"></div>
+  </div>
+  <div class="card">
+    <h3>Recent trades</h3>
+    <div id="trades"></div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

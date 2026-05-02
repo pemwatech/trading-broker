@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Login — ZedBinaryOption{% endblock %}
+{% block body %}
+<section class="container" style="max-width:440px;padding:60px 20px">
+  <div class="card">
+    <div class="kicker">Welcome back</div>
+    <h1 style="margin-bottom:18px">Sign in</h1>
+    <div id="alert"></div>
+    <form id="loginForm">
+      <div class="field"><label>Email</label><input class="input" type="email" name="email" required></div>
+      <div class="field"><label>Password</label><input class="input" type="password" name="password" required></div>
+      <button class="btn btn-primary btn-block" type="submit">Login</button>
+    </form>
+    <div class="text-center mt-3 muted">— or —</div>
+    <a href="/auth/google" class="btn btn-ghost btn-block mt-3">
+      Continue with Google{% if not google_enabled %} (demo){% endif %}
+    </a>
+    <p class="muted text-center mt-3" style="font-size:13px">No account? <a href="/signup">Sign up</a></p>
+  </div>
+</section>
+<script>
+document.getElementById('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const r = await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({email:fd.get('email'),password:fd.get('password')})});
+  const data = await r.json();
+  const a = document.getElementById('alert');
+  if(!r.ok){ a.innerHTML = `<div class="alert err">${data.error||'Login failed'}</div>`; return; }
+  location.href = data.redirect || '/dashboard';
+});
+</script>
+{% endblock %}

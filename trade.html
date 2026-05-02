@@ -1,0 +1,47 @@
+{% extends "_app.html" %}
+{% block title %}Trade — ZedBinaryOption{% endblock %}
+{% block app %}
+<div class="row items-center mb-3">
+  <div>
+    <div class="kicker">Trading</div>
+    <h1 style="margin:0">Rise / Fall</h1>
+  </div>
+  <div class="spacer"></div>
+  <div class="card" style="padding:10px 16px">
+    Balance: <b id="bal" style="font-family:var(--font-mono)">—</b> KES
+  </div>
+</div>
+
+<div class="symbol-list mb-3" id="symbols"></div>
+
+<div class="trade-grid">
+  <div class="card" style="padding:14px">
+    <div class="chart-wrap">
+      <div class="price-tag" id="price">—</div>
+      <svg id="chart" viewBox="0 0 600 320" preserveAspectRatio="none">
+        <path id="chartPath" fill="none" stroke="url(#g)" stroke-width="2"/>
+        <defs><linearGradient id="g" x1="0" x2="1">
+          <stop offset="0" stop-color="#22d3c5"/><stop offset="1" stop-color="#4fd1ff"/>
+        </linearGradient></defs>
+      </svg>
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">Place trade</h3>
+    <div class="field"><label>Stake (KES)</label>
+      <input class="input" id="stake" type="number" min="10" value="100"></div>
+    <div class="field"><label>Duration (seconds)</label>
+      <input class="input" id="duration" type="number" min="5" max="600" value="15"></div>
+    <div class="dir-row mt-2">
+      <button class="dir-btn rise" id="btnRise">▲ Rise</button>
+      <button class="dir-btn fall" id="btnFall">▼ Fall</button>
+    </div>
+    <div id="tradeAlert" class="mt-3"></div>
+    <h4 class="mt-4">Open trades</h4>
+    <div id="openTrades" class="muted" style="font-size:13px">None</div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/trade.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="/dashboard" class="{% if request.path=='/dashboard' %}active{% endif %}">📊 Dashboard</a>
+    <a href="/trade"     class="{% if request.path=='/trade' %}active{% endif %}">📈 Trade</a>
+    <a href="/deposit"   class="{% if request.path=='/deposit' %}active{% endif %}">💳 Deposit</a>
+    <a href="/kyc"       class="{% if request.path=='/kyc' %}active{% endif %}">🪪 KYC</a>
+    <a href="/profile"   class="{% if request.path=='/profile' %}active{% endif %}">👤 Profile</a>
+  </aside>
+  <main class="main">
+    {% block app %}{% endblock %}
+  </main>
+</div>
+{% endblock %}

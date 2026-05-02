@@ -1,0 +1,39 @@
+{% extends "_app.html" %}
+{% block title %}Deposit — ZedBinaryOption{% endblock %}
+{% block app %}
+<div class="kicker">Funding</div>
+<h1>Deposit via M-Pesa</h1>
+<p class="muted">Simulated STK Push — funds are credited instantly for demo purposes.</p>
+<div id="alert"></div>
+<div class="grid" style="grid-template-columns:1fr 1fr;gap:18px;max-width:780px">
+  <form id="depForm" class="card">
+    <div class="field"><label>Amount (KES)</label>
+      <input class="input" name="amount" type="number" min="10" step="1" value="500" required></div>
+    <div class="field"><label>M-Pesa phone</label>
+      <input class="input" name="phone" placeholder="+2547XXXXXXXX" required></div>
+    <button class="btn btn-primary btn-block">Send STK Push</button>
+  </form>
+  <div class="card">
+    <h3>How it works</h3>
+    <ol class="muted" style="line-height:1.8">
+      <li>Enter the amount and your Safaricom number.</li>
+      <li>Approve the simulated push prompt.</li>
+      <li>Balance is updated immediately.</li>
+    </ol>
+    <p class="muted" style="font-size:12px">Demo only — no real M-Pesa charges occur.</p>
+  </div>
+</div>
+<script>
+document.getElementById('depForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const r = await fetch('/api/deposit/mpesa',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({amount:Number(fd.get('amount')),phone:fd.get('phone')})});
+  const data = await r.json();
+  const a = document.getElementById('alert');
+  a.innerHTML = r.ok
+    ? `<div class="alert ok">${data.message} — Ref <b>${data.reference}</b></div>`
+    : `<div class="alert err">${data.error||'Failed'}</div>`;
+});
+</script>
+{% endblock %}

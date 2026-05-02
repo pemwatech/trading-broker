@@ -1,0 +1,36 @@
+{% extends "_app.html" %}
+{% block title %}KYC — ZedBinaryOption{% endblock %}
+{% block app %}
+<div class="kicker">Verification</div>
+<h1>Identity (KYC)</h1>
+<p class="muted">Submit your details to unlock withdrawals. Documents are stored privately on the server.</p>
+<div id="alert"></div>
+<form id="kycForm" class="card mt-3" enctype="multipart/form-data">
+  <div class="form-row">
+    <div class="field"><label>Full legal name</label><input class="input" name="full_name" required></div>
+    <div class="field"><label>Date of birth</label><input class="input" type="date" name="dob" required></div>
+  </div>
+  <div class="form-row">
+    <div class="field"><label>Country</label><input class="input" name="country" value="Kenya" required></div>
+    <div class="field"><label>National ID / Passport</label><input class="input" name="id_number" required></div>
+  </div>
+  <div class="form-row">
+    <div class="field"><label>Phone</label><input class="input" name="phone" placeholder="+2547..." required></div>
+    <div class="field"><label>Address</label><input class="input" name="address" required></div>
+  </div>
+  <div class="field"><label>ID document (PNG, JPG or PDF)</label>
+    <input class="input" type="file" name="document" accept=".png,.jpg,.jpeg,.pdf,.webp"></div>
+  <button class="btn btn-primary">Submit for review</button>
+</form>
+<script>
+document.getElementById('kycForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const r = await fetch('/api/kyc',{method:'POST',body:new FormData(e.target)});
+  const data = await r.json();
+  const a = document.getElementById('alert');
+  a.innerHTML = r.ok
+    ? `<div class="alert ok">Submitted! Status: <b>${data.status}</b></div>`
+    : `<div class="alert err">${data.error||'Failed'}</div>`;
+});
+</script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block body %}
+<section class="hero container">
+  <div class="kicker">Binary options · Volatility indices · KES</div>
+  <h1>Trade the markets <span class="gradient-text">your way</span></h1>
+  <p>Fund your account with M-Pesa, trade synthetic volatility indices 24/7,
+     and track every position from a beautifully simple dashboard.</p>
+  <div class="hero-actions">
+    {% if user %}
+      <a class="btn btn-primary" href="/trade">Open trader</a>
+      <a class="btn btn-ghost" href="/dashboard">Dashboard</a>
+    {% else %}
+      <a class="btn btn-primary" href="/signup">Create free account</a>
+      <a class="btn btn-ghost" href="/markets">Explore markets</a>
+    {% endif %}
+  </div>
+</section>
+
+<section class="container features">
+  <div class="card feature">
+    <div class="icon">M</div><h3>M-Pesa funding</h3>
+    <p class="muted">Deposit instantly with a simulated STK Push. Every shilling tracked in your KES wallet.</p>
+  </div>
+  <div class="card feature">
+    <div class="icon">V</div><h3>Volatility indices</h3>
+    <p class="muted">Trade VOL10–VOL100, Boom 500 and Crash 500 with live mocked tick streams.</p>
+  </div>
+  <div class="card feature">
+    <div class="icon">K</div><h3>Simple KYC</h3>
+    <p class="muted">A short identity form with document upload — secured server-side.</p>
+  </div>
+  <div class="card feature">
+    <div class="icon">G</div><h3>Sign in with Google</h3>
+    <p class="muted">Email/password or one-tap Google login. You choose how to access your account.</p>
+  </div>
+</section>
+{% endblock %}

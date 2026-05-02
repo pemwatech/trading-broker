@@ -1,0 +1,36 @@
+{% extends "_app.html" %}
+{% block title %}Profile — ZedBinaryOption{% endblock %}
+{% block app %}
+<div class="kicker">Account</div>
+<h1>Your profile</h1>
+<div id="alert"></div>
+<div class="card" style="max-width:560px">
+  <div class="row items-center mb-4">
+    <div class="avatar lg" id="avatarPreview">
+      {% if user['avatar'] %}<img src="{{ user['avatar'] }}">{% else %}{{ (user['full_name'] or user['email'])[0]|upper }}{% endif %}
+    </div>
+    <div>
+      <div style="font-size:18px;font-weight:600">{{ user['full_name'] or '—' }}</div>
+      <div class="muted">{{ user['email'] }}</div>
+      <div class="muted" style="font-size:12px">Provider: {{ user['provider'] }}</div>
+    </div>
+  </div>
+  <form id="profForm" enctype="multipart/form-data">
+    <div class="field"><label>Display name</label>
+      <input class="input" name="full_name" value="{{ user['full_name'] or '' }}"></div>
+    <div class="field"><label>New avatar</label>
+      <input class="input" type="file" name="avatar" accept="image/*"></div>
+    <button class="btn btn-primary">Save changes</button>
+  </form>
+</div>
+<script>
+document.getElementById('profForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const r = await fetch('/api/profile',{method:'POST',body:new FormData(e.target)});
+  const data = await r.json();
+  document.getElementById('alert').innerHTML = r.ok
+    ? `<div class="alert ok">Profile updated</div>` : `<div class="alert err">${data.error}</div>`;
+  if(r.ok) setTimeout(()=>location.reload(),700);
+});
+</script>
+{% endblock %}

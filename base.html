@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{% block title %}ZedBinaryOption — Trade Volatility Indices{% endblock %}</title>
+<meta name="description" content="{% block description %}ZedBinaryOption — trade volatility, boom and crash indices with M-Pesa funded accounts.{% endblock %}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+{% block head %}{% endblock %}
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a href="/" class="brand"><span class="logo"></span> ZedBinaryOption</a>
+    <nav class="nav">
+      <a href="/markets">Markets</a>
+      <a href="/about">About</a>
+      {% if user %}<a href="/dashboard">Dashboard</a>{% endif %}
+    </nav>
+    <div class="header-actions">
+      {% if user %}
+        <a href="/profile" class="btn btn-ghost">{{ user['full_name'] or user['email'] }}</a>
+        <button class="btn" onclick="logout()">Logout</button>
+      {% else %}
+        <a href="/login" class="btn btn-ghost">Login</a>
+        <a href="/signup" class="btn btn-primary">Get started</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+</br>
+<section class='body-content'>
+{% block body %}{% endblock %}
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    © <span id="yr"></span> ZedBinaryOption — Demo platform. Trading involves risk.
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  async function logout(){
+    await fetch('/api/logout',{method:'POST'});
+    location.href='/';
+  }
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Markets — ZedBinaryOption{% endblock %}
+{% block body %}
+<section class="container" style="padding:40px 20px">
+  <div class="kicker">Markets</div>
+  <h1>Synthetic volatility indices</h1>
+  <p class="muted">24/7 mocked tick streams. Click any market to start trading.</p>
+  <div class="grid mt-4" id="market-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"></div>
+</section>
+<script>
+async function loadMarkets(){
+  const r = await fetch('/api/symbols'); const data = await r.json();
+  const grid = document.getElementById('market-grid');
+  grid.innerHTML = data.map(s => `
+    <a class="card" href="/trade?symbol=${s.id}" style="display:block">
+      <div class="kicker">${s.id}</div>
+      <h3 style="margin:.3em 0">${s.name}</h3>
+      <div class="muted" style="font-family:var(--font-mono);font-size:20px;color:var(--primary)">${s.price.toFixed(4)}</div>
+      <div class="muted mt-2">Volatility ${(s.vol*100).toFixed(0)}%</div>
+    </a>
+  `).join('');
+}
+loadMarkets();
+</script>
+{% endblock %}
